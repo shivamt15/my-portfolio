@@ -36,7 +36,7 @@ a {
   margin: 18px auto 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content:space-around; 
   gap: 28px;
   position: sticky;
   top: 14px;
@@ -54,11 +54,7 @@ a {
   font-size: 25px;
   font-family: serif;
  font-weight: 900;
-   gap: 28px;
-  position:fixed;
-  top: 14px;
-  z-index: 20;
-   margin: 18px auto 0;
+  
   
 }
 
@@ -115,7 +111,7 @@ a {
 }
 
 .menu-btn {
-  display: none;
+  display:flex;
   background: #191919;
   color: #fff;
   border: 1px solid #303030;
@@ -168,19 +164,48 @@ a {
 }
 
 .socials a {
-  display: flex;
+  display: inline-block;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  margin-right:  5px;
 }
 
 .socials i {
-  font-size: 25px;
-  transition: 0.3s ease;
+  margin: auto;
+  text-align:center;
+  color: #c0c0c0;
+  font-size: 30px;
+
+  
 }
 
 .socials i:hover {
   color: #ff004f;
   transform: translateY(-5px);
+}
+.resume{
+     
+    border-radius: 30px;
+    font-size: 25px;
+    font-weight: 600;
+     transition: .2s ease;
+   
+}
+
+.rbtn{
+      display: inline-flex;
+    padding: 10px 15px ;
+    border-radius: 30px;
+      align-items: center;
+     justify-content: center;
+     text-align: center;
+   
+}
+
+.rbtn:hover{
+  transform: translateY(-2px);
+  background: #8b8a8a;
+
 }
 
 .hero-visual {
