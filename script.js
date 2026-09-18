@@ -1,39 +1,101 @@
-const menuBtn = document.getElementById("menuBtn");
-const nav = document.getElementById("nav");
+const contactModal = document.getElementById("contactModal");
+const contactTriggers = document.querySelectorAll(".contact-trigger, .talk-btn");
+const closeContactButtons = document.querySelectorAll("#contactModal [data-close-modal]");
 
-menuBtn.addEventListener("click", () => {
-  const isOpen = nav.classList.toggle("open");
-  menuBtn.setAttribute("aria-expanded", isOpen);
-});
+const galleryModals = document.querySelectorAll(".gallery-modal");
+const activityCards = document.querySelectorAll(".activity-clickable");
+const closeGalleryButtons = document.querySelectorAll("[data-close-gallery]");
 
-document.querySelectorAll(".nav a").forEach(link => {
-  link.addEventListener("click", () => {
-    nav.classList.remove("open");
-    menuBtn.setAttribute("aria-expanded", "false");
+function openModal(modal) {
+  if (!modal) return;
+
+  modal.classList.add("show");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+}
+
+function closeModal(modal) {
+  if (!modal) return;
+
+  modal.classList.remove("show");
+  modal.setAttribute("aria-hidden", "true");
+
+  if (!document.querySelector(".contact-modal.show, .gallery-modal.show")) {
+    document.body.classList.remove("modal-open");
+  }
+}
+
+contactTriggers.forEach((trigger) => {
+  trigger.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    openModal(contactModal);
+
+    const nameField = document.getElementById("contactName");
+
+    if (nameField) {
+      setTimeout(() => {
+        nameField.focus();
+      }, 150);
+    }
   });
 });
 
-const sections = [...document.querySelectorAll("main section[id]")];
-const links = [...document.querySelectorAll(".nav a")];
-
-const observer = new IntersectionObserver(entries => {
-  const visible = entries
-    .filter(entry => entry.isIntersecting)
-    .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-  if (!visible) return;
-
-  links.forEach(link => {
-    link.classList.toggle(
-      "active",
-      link.getAttribute("href") === `#${visible.target.id}`
-    );
+closeContactButtons.forEach((button) => {
+  button.addEventListener("click", (event) => {
+    event.stopPropagation();
+    closeModal(contactModal);
   });
-}, {
-  rootMargin: "-25% 0px -60% 0px",
-  threshold: [0, 0.2, 0.5]
 });
 
-sections.forEach(section => observer.observe(section));
+activityCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    const modalId = card.dataset.modal;
+    const modal = document.getElementById(modalId);
 
-document.getElementById("year").textContent = new Date().getFullYear();
+    openModal(modal);
+  });
+
+  card.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+
+      const modalId = card.dataset.modal;
+      const modal = document.getElementById(modalId);
+
+      openModal(modal);
+    }
+  });
+});
+
+closeGalleryButtons.forEach((button) => {
+  button.addEventListener("click", (event) => {
+    event.stopPropagation();
+
+    const modal = button.closest(".gallery-modal");
+
+    closeModal(modal);
+  });
+});
+
+document.querySelectorAll(".contact-backdrop, .gallery-backdrop").forEach((backdrop) => {
+  backdrop.addEventListener("click", () => {
+    const modal = backdrop.closest(".contact-modal, .gallery-modal");
+
+    closeModal(modal);
+  });
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape") return;
+
+  document.querySelectorAll(".contact-modal.show, .gallery-modal.show").forEach((modal) => {
+    closeModal(modal);
+  });
+});
+
+const yearElement = document.getElementById("year");
+
+if (yearElement) {
+  yearElement.textContent = new Date().getFullYear();
+}
