@@ -99,3 +99,29 @@ const yearElement = document.getElementById("year");
 if (yearElement) {
   yearElement.textContent = new Date().getFullYear();
 }
+const navLinks = document.querySelectorAll(".nav a");
+
+navLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        // Remove active from all navigation links
+        navLinks.forEach((navLink) => {
+            navLink.classList.remove("active");
+        });
+
+        // Add active to the clicked link
+        link.classList.add("active");
+
+        // Get the section from href
+        const targetId = link.getAttribute("href").substring(1);
+        const targetElement = document.getElementById(targetId);
+
+        // Scroll to the selected section
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: "smooth"
+            });
+        }
+    });
+});

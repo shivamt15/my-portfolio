@@ -75,18 +75,15 @@ a {
   border-radius: 40px;
   font-size: 20px;
   color: #f8f3f3;
-  transition: .1s ease-in-out;
+  transition: .1s ease-in;
 }
 
-.nav a:hover {
-  transform: translateY(-3px);
-  background: #393939;
-}
-
+.nav a:hover,
 .nav a.active {
   color: #fff;
-  background: #272727;
+  background: #a46d6d;
 }
+
 
 .talk-btn,
 .primary-btn {
@@ -160,7 +157,7 @@ a {
   width: min(390px, 100%);
   aspect-ratio: 1 / 1;
   padding: 10px;
-  border: 5px dotted white;
+  border: 5px solid rgb(0, 0, 0);
   border-radius: 50%;
   background: linear-gradient(145deg, #202020, #090909);
   box-shadow: 0 20px 70px rgba(0, 0, 0, .55);
