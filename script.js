@@ -1,6 +1,8 @@
 const contactModal = document.getElementById("contactModal");
 const contactTriggers = document.querySelectorAll(".contact-trigger, .talk-btn");
 const closeContactButtons = document.querySelectorAll("#contactModal [data-close-modal]");
+const contactForm = document.querySelector(".contact-form");
+const contactStatus = document.getElementById("contactStatus");
 
 const galleryModals = document.querySelectorAll(".gallery-modal");
 const activityCards = document.querySelectorAll(".activity-clickable");
@@ -47,6 +49,49 @@ closeContactButtons.forEach((button) => {
     closeModal(contactModal);
   });
 });
+
+if (contactForm) {
+  contactForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!contactForm.reportValidity()) return;
+
+    const submitButton = contactForm.querySelector("[type=submit]");
+    const originalButtonText = submitButton.textContent;
+    const formData = Object.fromEntries(new FormData(contactForm).entries());
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Sending...";
+    contactStatus.textContent = "";
+    contactStatus.classList.remove("is-error", "is-success");
+
+    try {
+      const response = await fetch(contactForm.action.replace("formsubmit.co/", "formsubmit.co/ajax/"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify(formData)
+      });
+      const result = await response.json();
+
+      if (!response.ok || result.success === "false" || result.success === false) {
+        throw new Error(result.message || "The message could not be sent.");
+      }
+
+      contactStatus.textContent = "Thanks, your message was sent successfully.";
+      contactStatus.classList.add("is-success");
+      contactForm.reset();
+    } catch (error) {
+      contactStatus.textContent = `${error.message} If this is your first submission, check the inbox for omshivamtandle@gmail.com and confirm FormSubmit activation.`;
+      contactStatus.classList.add("is-error");
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = originalButtonText;
+    }
+  });
+}
 
 activityCards.forEach((card) => {
   card.addEventListener("click", () => {

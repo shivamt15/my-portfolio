@@ -620,6 +620,25 @@ footer {
   transform: translateY(-2px);
 }
 
+.modal-submit:disabled {
+  cursor: wait;
+  opacity: .65;
+  transform: none;
+}
+
+.form-status {
+  min-height: 1.5em;
+  font-size: 14px;
+}
+
+.form-status.is-success {
+  color: #8fd3a7;
+}
+
+.form-status.is-error {
+  color: #ff9b9b;
+}
+
 .gallery-heading {
   padding-right: 55px;
   margin-bottom: 22px;
